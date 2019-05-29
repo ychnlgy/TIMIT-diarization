@@ -81,7 +81,7 @@ def _collect(root):
             assert subject not in subject_data  
             subject_data[subject] = sample_data
 
-    return dialect_data
+    return subject_data
 
     
     
