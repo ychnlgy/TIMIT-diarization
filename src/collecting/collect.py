@@ -55,14 +55,24 @@ def _collect(root):
     
     for dialect in os.listdir(root):
         dialect_root = os.path.join(root, dialect)
+
+        if not os.path.isdir(dialect_root):
+            continue
         
         for subject in os.listdir(dialect_root):
             subject_root = os.path.join(dialect_root, subject)
+
+            if not os.path.isdir(subject_root):
+                continue
 
             sample_data = collections.defaultdict(dict)
             for fname in os.listdir(subject_root):
                 fpath = os.path.join(subject_root, fname)
                 sample, info = fname.split(".")
+                
+                if not sample:
+                    continue
+                
                 assert info in [PHN, TXT, WAV, WRD]
                 
                 sample_data[sample][info] = fpath
