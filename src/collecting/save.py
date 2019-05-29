@@ -1,6 +1,6 @@
 import numpy
 
-import load as audio_load
+import .load as audio_load
 
 def save(datadir, savepath):
     data, test = audio_load.load(datadir)

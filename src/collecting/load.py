@@ -1,6 +1,6 @@
 import sphfile, csv
 
-import collect
+from . import collect
 
 PHN_DATA = "phn-data"
 WAV_DATA = "wav-data"
