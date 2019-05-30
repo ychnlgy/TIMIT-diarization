@@ -4,11 +4,17 @@ from matplotlib import pyplot
 
 from __init__ import src
 
+def normalize(data):
+    data = data.astype(float)
+    top = data.max()
+    data = data/top-0.5
+    return data
+
 def visualize(fpath):
     data, test = src.toolkit.save.load(fpath)
     subject_id, subject_data = next(iter(data.items()))
     sample_id, sample_data = next(iter(subject_data.items()))
-    wave = sample_data[src.collecting.WAV_DATA]
+    wave = normalize(sample_data[src.collecting.WAV_DATA])
     mfcc = sample_data[src.preprocessing.MFCC]
 
     fig, axes = pyplot.subplots(nrows=2)
