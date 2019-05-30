@@ -12,8 +12,9 @@ def visualize(fpath):
     mfcc = sample_data[src.preprocessing.MFCC]
 
     fig, axes = pyplot.subplots(nrows=2)
-    axes[0].plot(wave)
-    axes[1].imshow(mfcc.T, interpolation="nearest", cmap="hot")
+    axes[0].plot(wave[3000:5000])
+    print("MFCC shape:", mfcc.shape)
+    axes[1].imshow(mfcc.T, interpolation="nearest", cmap="hot", aspect="auto")
 
     pyplot.savefig(
         "../data/%s-%s.png" % (subject_id, sample_id),
