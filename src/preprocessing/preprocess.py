@@ -1,6 +1,6 @@
 from .mfcc import mfcc
 
-from .. import toolkit
+from .. import collecting, toolkit
 
 MFCC = "mfcc"
 TIMIT_SAMPLERATE = 16000
