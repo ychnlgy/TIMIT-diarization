@@ -1,4 +1,4 @@
-import argparse, matplotlib
+import argparse, matplotlib, scipy
 matplotlib.use("agg")
 from matplotlib import pyplot
 
@@ -14,7 +14,9 @@ def visualize(fpath):
     data, test = src.toolkit.save.load(fpath)
     subject_id, subject_data = next(iter(data.items()))
     sample_id, sample_data = next(iter(subject_data.items()))
-    wave = normalize(sample_data[src.collecting.WAV_DATA])
+    wave = sample_data[src.collecting.WAV_DATA]
+    scipy.io.wavfile.write("sample.wav", 16000, wave)
+    
     mfcc = sample_data[src.preprocessing.MFCC]
 
     fig, axes = pyplot.subplots(nrows=2)
@@ -23,7 +25,7 @@ def visualize(fpath):
     axes[1].imshow(mfcc.T, interpolation="nearest", cmap="hot", aspect="auto")
 
     pyplot.savefig(
-        "../data/%s-%s.png" % (subject_id, sample_id),
+        "sample.png",#"../data/%s-%s.png" % (subject_id, sample_id),
         bbox_inches="tight"
     )
 
