@@ -1,4 +1,4 @@
-import argparse, matplotlib, scipy
+import argparse, matplotlib, scipy.io.wavfile
 matplotlib.use("agg")
 from matplotlib import pyplot
 
