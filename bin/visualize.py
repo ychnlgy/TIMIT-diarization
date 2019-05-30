@@ -11,7 +11,7 @@ def visualize(fpath):
     wave = sample_data[src.collecting.WAV_DATA]
     mfcc = sample_data[src.preprocessing.MFCC]
 
-    axes, fig = pyplot.subplots(nrows=2)
+    fig, axes = pyplot.subplots(nrows=2)
     axes[0].plot(wave)
     axes[1].imshow(mfcc.T, interpolation="nearest", cmap="hot")
 
