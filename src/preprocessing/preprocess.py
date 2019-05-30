@@ -1,6 +1,6 @@
 from .mfcc import mfcc
 
-from .. import collecting
+from .. import toolkit
 
 MFCC = "mfcc"
 TIMIT_SAMPLERATE = 16000
@@ -16,7 +16,7 @@ CEPLIFTER = 22
 APPENDENERGY = True
 
 def preprocess(savepath):
-    data, test = collecting.load(savepath)
+    data, test = toolkit.save.load(savepath)
     return _preprocess(data), _preprocess(test)
 
 def _preprocess(obj):
