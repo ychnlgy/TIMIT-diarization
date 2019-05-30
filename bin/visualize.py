@@ -4,18 +4,16 @@ from matplotlib import pyplot
 
 from __init__ import src
 
-def normalize(data):
-    data = data.astype(float)
-    miu = data.mean()
-    std = data.std()
-    return (data-miu)/std
-
-def visualize(fpath):
+def visualize(fpath, mfccpath):
+    print("Loading audio...")
     data, test = src.toolkit.save.load(fpath)
     subject_id, subject_data = next(iter(data.items()))
     sample_id, sample_data = next(iter(subject_data.items()))
     wave = sample_data[src.collecting.WAV_DATA]
-    mfcc = sample_data[src.preprocessing.MFCC]
+
+    print("Loading MFCCs...")
+    data, test = src.toolkit.save.load(mfccpath)
+    mfcc = data[subject_id][sample_id][src.preprocessing.MFCC]
 
     fig, axes = pyplot.subplots(nrows=2)
     axes[0].plot(wave)
@@ -33,7 +31,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--file", type=str, help="File path at which the extracted data is stored.")
+    parser.add_argument("--mfcc", type=str, help="File path at which the MFCCs are stored.")
 
     args = parser.parse_args()
 
-    visualize(args.file)
+    visualize(args.file, args.mfcc)
