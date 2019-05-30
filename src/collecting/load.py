@@ -1,4 +1,4 @@
-import sphfile, csv
+import sphfile, csv, tqdm, sys
 
 from . import collect
 
@@ -9,11 +9,20 @@ def load(datadir):
     data, test = collect.collect(datadir)
     return _load(data), _load(test)
 
+def traverse(obj, fn):
+    items = sorted(list(obj.items()))
+    N = len(items)
+    for i, (subject_id, subject_data) in enumerate(items, 1):
+        sys.stderr.write("Subject %s (%d/%d)\n" % (subject_id, i, N))
+        for sample_data in tqdm.tqdm(subject_data.values(), ncols=80, leave=False):
+            fn(sample_data)
+    return obj
+
 def _load(collected):
     '''
 
     Input:
-        dataset, testset as defined by the dict:
+        collected as defined by the dict:
         
         {<subject_id>: {
             <sample_id>: {
@@ -25,7 +34,7 @@ def _load(collected):
         }
 
     Output:
-        dataset, testset as defined by the dict:
+        collected as defined by the dict:
         
         {<subject_id>: {
             <sample_id>: {
@@ -39,11 +48,11 @@ def _load(collected):
         }
 
     '''
-    for subject_data in collected.values():
-        for sample_data in subject_data.values():
-            sample_data[PHN_DATA] = _load_phn(sample_data[collect.PHN])
-            sample_data[WAV_DATA] = _load_wav(sample_data[collect.WAV])
-    return collected
+    return traverse(collected, _load_data)
+
+def _load_data(sample_data):
+    sample_data[PHN_DATA] = _load_phn(sample_data[collect.PHN])
+    sample_data[WAV_DATA] = _load_wav(sample_data[collect.WAV])
 
 def _load_phn(fpath):
     return list(_iter_phn(fpath))

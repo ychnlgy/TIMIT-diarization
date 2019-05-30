@@ -1,4 +1,4 @@
-import os, collections, tqdm
+import os, collections
 
 ROOT = "TIMIT"
 DATA = "TRAIN"
@@ -53,13 +53,13 @@ def _collect(root):
     '''
     subject_data = {}
     
-    for dialect in sorted(os.listdir(root)):
+    for dialect in os.listdir(root):
         dialect_root = os.path.join(root, dialect)
 
         if not os.path.isdir(dialect_root):
             continue
         
-        for subject in tqdm.tqdm(os.listdir(dialect_root), ncols=60, desc=dialect):
+        for subject in os.listdir(dialect_root):
             subject_root = os.path.join(dialect_root, subject)
 
             if not os.path.isdir(subject_root):
