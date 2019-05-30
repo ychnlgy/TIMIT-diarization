@@ -10,9 +10,7 @@ def load(datadir):
     return _load(data), _load(test)
 
 def traverse(obj, fn):
-    items = sorted(list(obj.items()))
-    N = len(items)
-    for i, (subject_id, subject_data) in tqdm.tqdm(enumerate(items, 1), ncols=80):
+    for subject_data in tqdm.tqdm(obj.values(), ncols=80):
         for sample_data in subject_data.values():
             fn(sample_data)
     return obj
