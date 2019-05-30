@@ -6,4 +6,4 @@ def save(obj, fpath):
 
 def load(fpath):
     with open(fpath, "rb") as f:
-        numpy.load(f)
+        return numpy.load(f)
