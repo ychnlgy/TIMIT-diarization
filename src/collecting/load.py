@@ -12,9 +12,8 @@ def load(datadir):
 def traverse(obj, fn):
     items = sorted(list(obj.items()))
     N = len(items)
-    for i, (subject_id, subject_data) in enumerate(items, 1):
-        sys.stderr.write("Subject %s (%d/%d)\n" % (subject_id, i, N))
-        for sample_data in tqdm.tqdm(subject_data.values(), ncols=80, leave=False):
+    for i, (subject_id, subject_data) in tqdm.tqdm(enumerate(items, 1), ncols=80):
+        for sample_data in subject_data.values():
             fn(sample_data)
     return obj
 
