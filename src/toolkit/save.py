@@ -3,5 +3,5 @@ def save(obj, fpath):
         numpy.save(f, obj)
 
 def load(fpath):
-    with open(savepath, "rb") as f:
+    with open(fpath, "rb") as f:
         numpy.load(f)
