@@ -61,4 +61,8 @@ def _iter_phn(fpath):
             yield int(i), int(j), phn
 
 def _load_wav(fpath):
-    return sphfile.SPHFile(fpath).content.astype(TIMIT_DTYPE)
+    raw = sphfile.SPHFile(fpath).content.astype(TIMIT_DTYPE)
+    return _to_float(raw)
+
+def _to_float(raw):
+    return raw.astype(numpy.float32)/32768.0
