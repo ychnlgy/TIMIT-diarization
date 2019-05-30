@@ -14,8 +14,7 @@ def visualize(fpath):
     data, test = src.toolkit.save.load(fpath)
     subject_id, subject_data = next(iter(data.items()))
     sample_id, sample_data = next(iter(subject_data.items()))
-    wave = sample_data[src.collecting.WAV_DATA]#.astype(numpy.float32, order="C")
-    #wave = wave/wave.max()*2-1
+    wave = sample_data[src.collecting.WAV_DATA].astype(numpy.float32, order="C")/65535.0*2-1
     scipy.io.wavfile.write("sample.wav", 16000, wave)
     
     mfcc = sample_data[src.preprocessing.MFCC]
