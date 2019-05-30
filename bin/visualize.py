@@ -6,9 +6,9 @@ from __init__ import src
 
 def normalize(data):
     data = data.astype(float)
-    top = data.max()
-    data = data/top-0.5
-    return data
+    miu = data.mean()
+    std = data.std()
+    return (data-miu)/std
 
 def visualize(fpath):
     data, test = src.toolkit.save.load(fpath)
@@ -18,7 +18,7 @@ def visualize(fpath):
     mfcc = sample_data[src.preprocessing.MFCC]
 
     fig, axes = pyplot.subplots(nrows=2)
-    axes[0].plot(wave[3000:5000])
+    axes[0].plot(wave)
     print("MFCC shape:", mfcc.shape)
     axes[1].imshow(mfcc.T, interpolation="nearest", cmap="hot", aspect="auto")
 
