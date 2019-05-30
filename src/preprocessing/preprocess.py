@@ -15,11 +15,11 @@ PREEMPH = 0.97
 CEPLIFTER = 22
 APPENDENERGY = True
 
-def preprocess(savepath):
+def preprocess(savepath, keepwave):
     data, test = toolkit.save.load(savepath)
-    return _preprocess(data), _preprocess(test)
+    return _preprocess(data, keepwave), _preprocess(test, keepwave)
 
-def _preprocess(obj):
+def _preprocess(obj, keepwave):
     '''
 
     Input:
@@ -35,6 +35,8 @@ def _preprocess(obj):
                 "wav-data": numpy array of uint16, wave audio file.
             }
         }
+
+        keepwave - int, 0 means delete raw wave-data.
 
     Output:
         obj as defined by the dict:
@@ -52,9 +54,9 @@ def _preprocess(obj):
         }
 
     '''
-    return collecting.traverse(obj, _preprocess_data)
+    return collecting.traverse(obj, _preprocess_data, keepwave)
 
-def _preprocess_data(sample_data):
+def _preprocess_data(sample_data, keepwave):
     sample_data[MFCC] = mfcc(
         signal = sample_data[collecting.WAV_DATA],
         samplerate = TIMIT_SAMPLERATE,
@@ -69,3 +71,5 @@ def _preprocess_data(sample_data):
         ceplifter = CEPLIFTER,
         appendEnergy = APPENDENERGY
     )
+    if not keepwave:
+        del sample_data[collecting.WAV_DATA]

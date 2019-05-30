@@ -10,10 +10,10 @@ def load(datadir):
     data, test = collect.collect(datadir)
     return _load(data), _load(test)
 
-def traverse(obj, fn):
+def traverse(obj, fn, *args):
     for subject_data in tqdm.tqdm(obj.values(), ncols=80):
         for sample_data in subject_data.values():
-            fn(sample_data)
+            fn(sample_data, *args)
     return obj
 
 def _load(collected):

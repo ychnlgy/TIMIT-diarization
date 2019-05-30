@@ -6,7 +6,7 @@ from .. import toolkit
 
 MFCC_EXT = "-mfcc"
 
-def save(savepath):
+def save(savepath, keepwave):
     fpath, ext = os.path.splitext(savepath)
     outpath = fpath + MFCC_EXT + ext
-    toolkit.save.save(list(preprocess(savepath)), outpath)
+    toolkit.save.save(list(preprocess(savepath, keepwave)), outpath)
