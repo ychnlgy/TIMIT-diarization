@@ -14,9 +14,7 @@ def visualize(fpath):
     data, test = src.toolkit.save.load(fpath)
     subject_id, subject_data = next(iter(data.items()))
     sample_id, sample_data = next(iter(subject_data.items()))
-    wave = sample_data[src.collecting.WAV_DATA].astype(numpy.int16)
-    scipy.io.wavfile.write("sample.wav", 16000, wave)
-    
+    wave = sample_data[src.collecting.WAV_DATA]
     mfcc = sample_data[src.preprocessing.MFCC]
 
     fig, axes = pyplot.subplots(nrows=2)
@@ -24,8 +22,9 @@ def visualize(fpath):
     print("MFCC shape:", mfcc.shape)
     axes[1].imshow(mfcc.T, interpolation="nearest", cmap="hot", aspect="auto")
 
+    scipy.io.wavfile.write("sample.wav", 16000, wave)
     pyplot.savefig(
-        "sample.png",#"../data/%s-%s.png" % (subject_id, sample_id),
+        "sample.png",
         bbox_inches="tight"
     )
 

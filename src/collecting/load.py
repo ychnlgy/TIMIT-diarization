@@ -1,9 +1,10 @@
-import sphfile, csv, tqdm, sys
+import sphfile, csv, tqdm, numpy
 
 from . import collect
 
 PHN_DATA = "phn-data"
 WAV_DATA = "wav-data"
+TIMIT_DTYPE = numpy.int16
 
 def load(datadir):
     data, test = collect.collect(datadir)
@@ -60,4 +61,4 @@ def _iter_phn(fpath):
             yield int(i), int(j), phn
 
 def _load_wav(fpath):
-    return sphfile.SPHFile(fpath).content
+    return sphfile.SPHFile(fpath).content.astype(TIMIT_DTYPE)
