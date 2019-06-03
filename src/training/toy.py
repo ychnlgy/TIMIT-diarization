@@ -106,7 +106,11 @@ def main():
 
             bar.set_description("Train (%d) %.3f | Test %.3f | Loss %.4f" % (len(dataloader.dataset), train_acc, acc, avg.peek()))
 
-    print("Final test accuracy: %.4f %%" % (acc*100))
+    acc *= 100
+
+    print("Final test accuracy: %.4f %%" % acc)
+
+    return acc
             
 
             
