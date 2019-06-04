@@ -1,6 +1,6 @@
 import torch
 
-class Shortcut2d(torch.nn.Module):
+class Shortcut(torch.nn.Module):
 
     '''
 

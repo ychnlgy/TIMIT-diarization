@@ -61,5 +61,9 @@ def main(fpath, repeats, slicelen, batchsize, device):
     ).to(device)
 
     parameters = sum(torch.numel(p) for p in model.parameters() if p.requires_grad)
+
+    print("Parameters: %d" % parameters)
+
+    print(model)
     
     
