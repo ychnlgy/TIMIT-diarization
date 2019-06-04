@@ -1,2 +1,2 @@
 from .save import save
-from .preprocess import MFCC
+from .preprocess import MFCC, NUMCEP
