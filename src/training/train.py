@@ -9,8 +9,8 @@ def main(fpath, repeats, slicelen, batchsize, device):
 
     data, test = toolkit.save.load(fpath)
 
-    subject_data = next(iter(data))
-    sample_data = next(iter(test))
+    subject_data = next(iter(data.values()))
+    sample_data = next(iter(subject_data.values()))
     mfcc = sample_data["mfcc"]
     print(mfcc.shape)
     input()
