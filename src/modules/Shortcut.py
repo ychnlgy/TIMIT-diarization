@@ -34,7 +34,7 @@ class Shortcut(torch.nn.Module):
 
     def __init__(self, in_c, out_c, stride, act):
         super().__init__()
-        assert out_channels & 2 == 0
+        assert out_c & 2 == 0
         self.ak = act
         self.c1 = torch.nn.Sequential(
             torch.nn.AvgPool2d(1, stride=stride),
