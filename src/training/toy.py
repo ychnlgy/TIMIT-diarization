@@ -49,8 +49,8 @@ def main():
     dataset = create_dataset(subjects, samples)
     testset = create_dataset(subjects, samples, seed=7)
 
-    creator = SubjectSampleDataMatcher(dataset, repeats=4, slicelen=SLICE, batch_size=128, shuffle=True)
-    tester = SubjectSampleDataMatcher(testset, repeats=4, slicelen=SLICE, batch_size=128)
+    creator = SubjectSampleDataMatcher(dataset, repeats=1, slicelen=SLICE, batch_size=128, shuffle=True)
+    tester = SubjectSampleDataMatcher(testset, repeats=1, slicelen=SLICE, batch_size=128)
 
     h = 32
 
@@ -60,17 +60,18 @@ def main():
 
         layers = [
             torch.nn.Linear(emb_input, h),
-            torch.nn.ReLU(),
+            modules.polynomial.LinkActivation(2, h, 3),
+            #torch.nn.ReLU(),
             torch.nn.Linear(h, h),
         ]
     )
 
-    epochs = 300
+    epochs = 100
 
-    lossf = torch.nn.L1Loss()
     #optim = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.99, weight_decay=0)
     optim = torch.optim.Adam(model.parameters())
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(optim, T_max=epochs)
+    #sched = torch.optim.lr_scheduler.StepLR(optim, step_size=20, gamma=0.2)
 
     avg = util.MovingAverage(momentum=0.95)
 

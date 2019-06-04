@@ -1,2 +1,1 @@
-from .SubjectSampleDataCreator import SubjectSampleDataCreator
-from . import toy
+from . import toy, train

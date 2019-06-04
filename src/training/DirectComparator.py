@@ -20,6 +20,10 @@ class DirectComparator(torch.nn.Module):
         sm, d1, d2 = self.forward(X)
         return (d1+d2-sm).mean()
 
+    def loss_abs(self, X):
+        sm, d1, d2 = self.forward(X)
+        return ((1-sm)**2 + (-1-d1)**2 + (-1-d2)**2).sum()
+
     def score(self, X):
         sm, d1, d2 = self.forward(X)
         return (sm > d1).float().sum().item()

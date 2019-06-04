@@ -8,11 +8,13 @@ if __name__ == "__main__":
     parser.add_argument("--email")
     args = parser.parse_args()
 
-    acc = src.training.toy.main()
-
+    service = None
     if args.email is not None:
         import mailupdater
         service = mailupdater.Service(args.email)
 
+    acc = src.training.toy.main()
+
+    if service is not None:
         with service.create("Acc %.2f" % acc):
             pass
