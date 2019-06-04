@@ -24,7 +24,7 @@ class ResNet(torch.nn.Module):
     def _construct_block(self, block_depth, block_constructor, shortcut_constructor, in_c, out_c):
         out = []
         for i in range(block_depth):
-            out.append(_construct_one_block(block_constructor, shortcut_constructor, in_c, out_c))
+            out.append(self._construct_one_block(block_constructor, shortcut_constructor, in_c, out_c))
             in_c = out_c
         return torch.nn.Sequential(*out)
 
