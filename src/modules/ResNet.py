@@ -13,7 +13,7 @@ class ResNet(torch.nn.Module):
                 block_constructor,
                 shortcut_constructor,
                 channels[i], channels[i+1]
-            ) for i in range(len(channels))
+            ) for i in range(len(channels)-1)
         ])
 
     def forward(self, X):
