@@ -40,7 +40,7 @@ def main(fpath, repeats, slicelen, batchsize, device):
                     lambda: torch.nn.Sequential(
                         create_act(in_c),
                         torch.nn.Conv2d(in_c, out_c, 3, padding=1, stride=2, bias=False),
-                        torch.BatchNorm2d(out_c),
+                        torch.nn.BatchNorm2d(out_c),
 
                         create_act(out_c),
                         torch.nn.Conv2d(out_c, out_c, 3, padding=1, bias=False),
