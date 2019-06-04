@@ -9,4 +9,5 @@ from .Reshape import Reshape
 from .PrototypeSimilarity import PrototypeSimilarity
 from .Shortcut import Shortcut
 from .ResBlock import ResBlock
+from .ResNet import ResNet
 from .ShakeBlock import ShakeBlock
