@@ -25,7 +25,7 @@ class Shortcut(torch.nn.Module):
     ####################
     #X#X#X#X#X#X#X#X#X#X
     ####################
-    #X#X#X#X#X#X#X#X#X#Xz
+    #X#X#X#X#X#X#X#X#X#X
 
     Note that in our implementation, average pooling is not averaging anything
     since the kernel size is 1. Instead, it selects the single element per stride.

@@ -4,7 +4,7 @@ class DirectComparator(torch.nn.Module):
 
     def __init__(self, layers):
         super().__init__()
-        self.net = torch.nn.Sequential(*layers)
+        self.net = torch.nn.DataParallel(torch.nn.Sequential(*layers))
 
     def forward(self, X):
         v1 = self.net(X[:,0])
