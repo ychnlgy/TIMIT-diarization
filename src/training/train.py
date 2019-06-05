@@ -39,7 +39,7 @@ def main(fpath, repeats, slicelen, batchsize, device):
                 block_constructor = lambda in_c, out_c: modules.ShakeBlock(
                     lambda: torch.nn.Sequential(
                         create_act(in_c),
-                        torch.nn.Conv2d(in_c, out_c, 3, padding=1, stride=2, bias=False),
+                        torch.nn.Conv2d(in_c, out_c, 3, padding=1, stride=int(out_c>in_c)+1, bias=False),
                         torch.nn.BatchNorm2d(out_c),
 
                         create_act(out_c),
@@ -63,9 +63,6 @@ def main(fpath, repeats, slicelen, batchsize, device):
     parameters = sum(torch.numel(p) for p in model.parameters() if p.requires_grad)
 
     print("Parameters: %d" % parameters)
-
-    print(model)
-    input()
 
     data_creator = SubjectSampleDataMatcher(data, repeats, slicelen, batch_size=batchsize, shuffle=True)
     test_creator = SubjectSampleDataMatcher(test, repeats, slicelen, batch_size=batchsize*2)
