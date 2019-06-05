@@ -28,7 +28,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--batchsize",
         type = int,
-        help = "Training batch size. Note that test batch is double this."
+        help = "Training batch size. Note that test batch is double this.",
         default = 32
     ),
 
