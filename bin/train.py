@@ -8,7 +8,8 @@ if __name__ == "__main__":
     
     parser.add_argument(
         "--file",
-        help = "Data path."
+        help = "Data path.",
+        default = "../data/timit-wav-mfcc.npy"
     )
     
     parser.add_argument(
@@ -20,13 +21,15 @@ if __name__ == "__main__":
     parser.add_argument(
         "--slicelen",
         type = int,
-        help = "Length of each random slice."
+        help = "Length of each random slice.",
+        default = 64
     )
 
     parser.add_argument(
         "--batchsize",
         type = int,
         help = "Training batch size. Note that test batch is double this."
+        default = 32
     ),
 
     parser.add_argument(
