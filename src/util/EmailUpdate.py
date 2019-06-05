@@ -6,6 +6,7 @@ class EmailUpdate:
         self.fname = target_path
         self.sleep = sleep
         self.last = 0
+        self.counter = 0
         self.service = None
 
     def main(self, username):
@@ -16,6 +17,7 @@ class EmailUpdate:
 
         while True:
             if self.check_modified():
+                self.counter += 1
                 self.send()
             time.sleep(self.sleep)
 
@@ -33,5 +35,5 @@ class EmailUpdate:
                 return False
 
     def send(self):
-        with self.service.create("Update for %s" % self.fname) as email:
+        with self.service.create("Update %d for %s" % (self.counter, self.fname)) as email:
             email.attach(self.fname)
