@@ -6,7 +6,7 @@ class EmailUpdate:
         self.fname = target_path
         self.sleep = sleep
         self.last = 0
-        self.service = service
+        self.service = None
 
     def main(self, username):
 
