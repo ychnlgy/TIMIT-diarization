@@ -1,6 +1,6 @@
-import numpy, random, torch, tqdm
+import numpy, random, torch, tqdm, sys
 
-from .. import toolkit, preprocessing, modules
+from .. import toolkit, preprocessing, modules, util
 
 from .SubjectSampleDataMatcher import SubjectSampleDataMatcher
 from .DirectComparator import DirectComparator
@@ -64,6 +64,51 @@ def main(fpath, repeats, slicelen, batchsize, device):
 
     print("Parameters: %d" % parameters)
 
-    print(model)
+    data_creator = SubjectSampleDataMatcher(data, repeats, slicelen, batch_size=batchsize, shuffle=True)
+    test_creator = SubjectSampleDataMatcher(test, repeats, slicelen, batch_size=batchsize*2)
+
+    epochs = 300
+
+    optim = torch.optim.Adam(model.parameters())
+    sched = torch.optim.lr_scheduler.CosineAnnealingLR(optim, T_max=epochs)
+
+    avg = util.MovingAverage(momentum=0.99)
+
+    for epoch in range(epochs):
+
+        model.train()
+
+        dataset = data_creator.create()
+
+        with tqdm.tqdm(dataset, ncols=80) as bar:
+            for (X,) in bar:
+                loss = model.loss(X)
+                optim.zero_grad()
+                loss.backward()
+                optim.step()
+                avg.update(loss.item())
+                bar.set_description("[E%d] Loss %.4f" % (epoch, avg.peek()))
+
+        sched.step()
+
+        model.eval()
+
+        with torch.no_grad():
+
+            data_a = data_n = test_a = test_n = 0
+
+            for (X,) in dataset:
+                data_a += model.score(X)
+                data_n += len(data_a)
+
+            for (X,) in test_creator.create():
+                test_a += model.score(X)
+                test_n += len(test_a)
+
+            data_acc = data_a / data_n * 100
+            test_acc = test_a / test_n * 100
+
+            sys.stderr.write("Training | test accuracy: %.2f | %.2f\n" % (data_acc, test_acc))
+    
     
     
