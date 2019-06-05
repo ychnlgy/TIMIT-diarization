@@ -24,8 +24,5 @@ class ResBlock(torch.nn.Module):
     def forward(self, X):
         h0 = self.sc(X)
         h1 = self.bk(X)
-        print(h0.size())
-        print(h1.size())
-        input()
         h2 = (h0 + h1) * self.w8
         return self.ac(h2)

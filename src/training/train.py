@@ -64,6 +64,9 @@ def main(fpath, repeats, slicelen, batchsize, device):
 
     print("Parameters: %d" % parameters)
 
+    print(model)
+    input()
+
     data_creator = SubjectSampleDataMatcher(data, repeats, slicelen, batch_size=batchsize, shuffle=True)
     test_creator = SubjectSampleDataMatcher(test, repeats, slicelen, batch_size=batchsize*2)
 

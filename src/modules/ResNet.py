@@ -1,7 +1,6 @@
 import torch
 
 from .ResBlock import ResBlock
-from .Shortcut import Shortcut
 
 class ResNet(torch.nn.Module):
 
