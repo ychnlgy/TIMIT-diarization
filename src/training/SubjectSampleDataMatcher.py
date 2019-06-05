@@ -15,8 +15,8 @@ class SubjectSampleDataMatcher(SubjectSampleDataCreator):
         if get_stats:
             return (
                 loader,
-                X.mean(dim=1).unsqueeze(1),
-                X.std(dim=1).unsqueeze(1)
+                X.mean(dim=0).unsqueeze(0),
+                X.std(dim=0).unsqueeze(0)
             )
         else:
             return loader
