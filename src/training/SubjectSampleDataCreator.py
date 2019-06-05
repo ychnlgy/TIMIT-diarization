@@ -106,6 +106,7 @@ class SubjectSampleDataCreator:
         for subject_data in ant:
             for sample_id, sample_data in subject_data.items():
                 out[sample_id].append(sample_data)
+        return out
 
     @staticmethod
     def test():
