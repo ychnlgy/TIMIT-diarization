@@ -7,7 +7,7 @@ class SubjectSampleDataMatcher(SubjectSampleDataCreator):
 
     def create(self):
         Xs = [self.construct_data() for i in range(self.n)]
-        X = torch.cat(Xs, dim=0)
+        X = torch.cat(Xs, dim=0).float()
         tensorset = torch.utils.data.TensorDataset(X)
         return torch.utils.data.DataLoader(tensorset, **self.kwargs)
 
