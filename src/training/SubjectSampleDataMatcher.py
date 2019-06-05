@@ -5,11 +5,21 @@ from .SubjectSampleDataCreator import SubjectSampleDataCreator
 
 class SubjectSampleDataMatcher(SubjectSampleDataCreator):
 
-    def create(self):
+    def create(self, get_stats=False, miu=None, std=None):
         Xs = [self.construct_data() for i in range(self.n)]
         X = torch.cat(Xs, dim=0).float()
+        if miu is not None:
+            X = (X-miu)/std
         tensorset = torch.utils.data.TensorDataset(X)
-        return torch.utils.data.DataLoader(tensorset, **self.kwargs)
+        loader = torch.utils.data.DataLoader(tensorset, **self.kwargs)
+        if get_stats:
+            return (
+                loader,
+                X.mean(dim=1).unsqueeze(1),
+                X.std(dim=1).unsqueeze(1)
+            )
+        else:
+            return loader
 
     # === PROTECTED ===
 
