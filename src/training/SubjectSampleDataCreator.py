@@ -96,7 +96,7 @@ class SubjectSampleDataCreator:
     def _flatten_after_same_subject(self, pro):
         n = len(self._samples)-1
         for subject_data in pro:
-            print(subject_data)
+            print(subject_data.keys())
             print(self._samples)
             input()
             for _ in self._samples:
