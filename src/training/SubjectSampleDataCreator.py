@@ -26,9 +26,6 @@ class SubjectSampleDataCreator:
     # === PROTECTED ===
 
     def select_x(self, sample):
-        print(list(sample.keys()))
-        print(len(sample))
-        input()
         x = sample[preprocessing.MFCC].T
         x = torch.from_numpy(x)
         l = x.size(1)
@@ -93,6 +90,8 @@ class SubjectSampleDataCreator:
         n = len(ant)-1
         for _ in pro:
             for sample_id in self._samples:
+                print(ant[0])
+                input()
                 yield self.select_x(ant[random.randint(0, n)][sample_id])
 
     @toolkit.torchtools.torchstack
