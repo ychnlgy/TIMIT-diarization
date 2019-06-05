@@ -90,14 +90,15 @@ class SubjectSampleDataCreator:
         n = len(ant)-1
         for _ in pro:
             for sample_id in self._samples:
-                print(ant[0])
-                input()
                 yield self.select_x(ant[random.randint(0, n)][sample_id])
 
     @toolkit.torchtools.torchstack
     def _flatten_after_same_subject(self, pro):
         n = len(self._samples)-1
         for subject_data in pro:
+            print(subject_data)
+            print(self._samples)
+            input()
             for _ in self._samples:
                 sample_id = self._samples[random.randint(0, n)]
                 yield self.select_x(subject_data[sample_id])
