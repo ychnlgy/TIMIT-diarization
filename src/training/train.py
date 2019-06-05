@@ -82,7 +82,7 @@ def main(fpath, repeats, slicelen, batchsize, device):
 
         with tqdm.tqdm(dataset, ncols=80) as bar:
             for (X,) in bar:
-                loss = model.loss(X.float())
+                loss = model.loss(X.to(device))
                 optim.zero_grad()
                 loss.backward()
                 optim.step()
@@ -98,11 +98,11 @@ def main(fpath, repeats, slicelen, batchsize, device):
             data_a = data_n = test_a = test_n = 0
 
             for (X,) in dataset:
-                data_a += model.score(X.float())
+                data_a += model.score(X.to(device))
                 data_n += len(data_a)
 
             for (X,) in test_creator.create():
-                test_a += model.score(X.float())
+                test_a += model.score(X.to(device))
                 test_n += len(test_a)
 
             data_acc = data_a / data_n * 100
