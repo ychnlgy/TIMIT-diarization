@@ -5,7 +5,7 @@ from .. import toolkit, preprocessing, modules, util
 from .SubjectSampleDataMatcher import SubjectSampleDataMatcher
 from .DirectComparator import DirectComparator
 
-def main(fpath, repeats, slicelen, batchsize, device):
+def main(fpath, repeats, slicelen, batchsize, l2reg, device):
 
     data, test = toolkit.save.load(fpath)
 
@@ -69,7 +69,7 @@ def main(fpath, repeats, slicelen, batchsize, device):
 
     epochs = 300
 
-    optim = torch.optim.Adam(model.parameters())
+    optim = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9, weight_decay=l2reg)
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(optim, T_max=epochs)
 
     avg = util.MovingAverage(momentum=0.99)

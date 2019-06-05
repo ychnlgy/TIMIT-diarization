@@ -33,10 +33,23 @@ if __name__ == "__main__":
     ),
 
     parser.add_argument(
+        "--l2",
+        type = float,
+        help = "L2-regularization weight",
+    )
+
+    parser.add_argument(
         "--device",
         default = "cuda"
     )
     
     args = parser.parse_args()
 
-    src.training.train.main(args.file, args.repeats, args.slicelen, args.batchsize, args.device)
+    src.training.train.main(
+        fpath = args.file,
+        repeats = args.repeats,
+        slicelen = args.slicelen,
+        batchsize = args.batchsize,
+        l2reg = args.l2,
+        device = args.device
+    )
