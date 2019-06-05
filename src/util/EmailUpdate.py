@@ -35,5 +35,7 @@ class EmailUpdate:
                 return False
 
     def send(self):
-        with self.service.create("Update %d for %s" % (self.counter, self.fname)) as email:
+        title = "Update %d for %s" % (self.counter, self.fname)
+        with self.service.create(title) as email:
             email.attach(self.fname)
+        print(title)
