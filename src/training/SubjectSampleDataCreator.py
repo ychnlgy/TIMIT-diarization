@@ -1,4 +1,4 @@
-import torch, random
+import torch, random, collections
 import torch.utils.data
 
 from .. import preprocessing, toolkit
@@ -9,7 +9,6 @@ class SubjectSampleDataCreator:
         self.data = data
         self.n = repeats
         self.slclen = slicelen
-        self._samples = self._get_samples()
         self.kwargs = kwargs
 
     def create(self):
@@ -56,10 +55,6 @@ class SubjectSampleDataCreator:
 
     # === PRIVATE ===
 
-    def _get_samples(self):
-        subject_data = next(iter(self.data.values()))
-        return list(subject_data.keys())
-
     def _halve_by_subject(self):
         subjects = list(self.data.values())
         random.shuffle(subjects)
@@ -82,26 +77,35 @@ class SubjectSampleDataCreator:
     @toolkit.torchtools.torchstack
     def _flatten_by_sample(self, out):
         for subject_data in out:
-            for sample_id in self._samples:
-                yield self.select_x(subject_data[sample_id])
+            for sample_data in subject_data.values():
+                yield self.select_x(sample_data)
 
     @toolkit.torchtools.torchstack
     def _flatten_after_sampling(self, pro, ant):
         n = len(ant)-1
-        for _ in pro:
-            for sample_id in self._samples:
-                yield self.select_x(ant[random.randint(0, n)][sample_id])
+        ant_sample_map = self._create_sample_map(ant)
+        for subject_data in pro:
+            for sample_id in subject_data.keys():
+                if sample_id in ant_sample_map:
+                    choices = ant_sample_map[sample_id]
+                else:
+                    choices = list(random.choice(ant).values())
+                    print("No matches")
+                yield self.select_x(random.choice(choices))
 
     @toolkit.torchtools.torchstack
     def _flatten_after_same_subject(self, pro):
-        n = len(self._samples)-1
         for subject_data in pro:
-            print(subject_data.keys())
-            print(self._samples)
-            input()
-            for _ in self._samples:
-                sample_id = self._samples[random.randint(0, n)]
-                yield self.select_x(subject_data[sample_id])
+            samples = list(subject_data.values())
+            random.shuffle(samples)
+            for sample_data in samples:
+                yield self.select_x(sample_data)
+
+    def _create_sample_map(self, ant):
+        out = collections.defaultdict(list)
+        for subject_data in ant:
+            for sample_id, sample_data in subject_data.items():
+                out[sample_id].append(sample_data)
 
     @staticmethod
     def test():
