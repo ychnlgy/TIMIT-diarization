@@ -26,6 +26,9 @@ class SubjectSampleDataCreator:
     # === PROTECTED ===
 
     def select_x(self, sample):
+        print(list(sample.keys()))
+        print(len(sample))
+        input()
         x = sample[preprocessing.MFCC].T
         x = torch.from_numpy(x)
         l = x.size(1)
