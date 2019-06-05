@@ -99,11 +99,11 @@ def main(fpath, repeats, slicelen, batchsize, device):
 
             for (X,) in dataset:
                 data_a += model.score(X.to(device))
-                data_n += len(data_a)
+                data_n += len(X)
 
             for (X,) in test_creator.create():
                 test_a += model.score(X.to(device))
-                test_n += len(test_a)
+                test_n += len(X)
 
             data_acc = data_a / data_n * 100
             test_acc = test_a / test_n * 100
