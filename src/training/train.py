@@ -9,7 +9,7 @@ def report_results(results_path, msg):
     with open(results_path, "a") as results_file:
         results_file.write(msg)
 
-def main(fpath, repeats, slicelen, batchsize, l2reg, device, results_path="results.txt"):
+def main(fpath, repeats, slicelen, batchsize, l2reg, device, results_path="results.txt", save_cycle=5, save_path="model.pkl"):
 
     log = util.Log(results_path)
     log.write(" ".join(sys.argv))
@@ -81,7 +81,7 @@ def main(fpath, repeats, slicelen, batchsize, l2reg, device, results_path="resul
 
     avg = util.MovingAverage(momentum=0.99)
 
-    for epoch in range(epochs):
+    for epoch in range(0, epochs+1):
 
         model.train()
 
@@ -119,6 +119,10 @@ def main(fpath, repeats, slicelen, batchsize, l2reg, device, results_path="resul
             log.write(
                 msg = "Epoch %d training|test accuracy: %.2f|%.2f" % (epoch, data_acc, test_acc)
             )
+
+        if not epoch % save_cycle:
+            torch.save(model.state_dict(), save_path)
+            log.write(msg = "Saved model to %s" % save_path)
                 
     
     
