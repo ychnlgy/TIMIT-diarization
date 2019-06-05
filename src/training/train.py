@@ -5,7 +5,14 @@ from .. import toolkit, preprocessing, modules, util
 from .SubjectSampleDataMatcher import SubjectSampleDataMatcher
 from .DirectComparator import DirectComparator
 
-def main(fpath, repeats, slicelen, batchsize, l2reg, device):
+def report_results(results_path, msg):
+    with open(results_path, "a") as results_file:
+        results_file.write(msg)
+
+def main(fpath, repeats, slicelen, batchsize, l2reg, device, results_path="results.txt"):
+
+    log = util.Log(results_path)
+    log.write(" ".join(sys.argv))
 
     data, test = toolkit.save.load(fpath)
 
@@ -109,7 +116,10 @@ def main(fpath, repeats, slicelen, batchsize, l2reg, device):
             data_acc = data_a / data_n * 100
             test_acc = test_a / test_n * 100
 
-            sys.stderr.write("Training | test accuracy: %.2f | %.2f\n" % (data_acc, test_acc))
+            log.write(
+                msg = "Epoch %d training|test accuracy: %.2f|%.2f" % (epoch, data_acc, test_acc)
+            )
+                
     
     
     
