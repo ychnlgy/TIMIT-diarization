@@ -6,6 +6,6 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--email")
-    args = parser.parse()
+    args = parser.parse_args()
     
     src.util.EmailUpdate("results.txt").main(args.email)
