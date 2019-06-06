@@ -83,7 +83,7 @@ def main(fpath, repeats, slicelen, batchsize, l2reg, device, results_path="resul
         model.train()
 
         #dataset, miu, std = data_creator.create(get_stats=True)
-        dataset = data_creator.create()
+        dataset, miu, std = data_creator.create(get_stats=True, noise=0.01)
 
         with tqdm.tqdm(dataset, ncols=80) as bar:
             for (X,) in bar:
@@ -106,7 +106,7 @@ def main(fpath, repeats, slicelen, batchsize, l2reg, device, results_path="resul
                 data_a += model.score(X.to(device))
                 data_n += len(X)
 
-            for (X,) in test_creator.create():#test_creator.create(miu=miu, std=std):
+            for (X,) in test_creator.create(miu=miu, std=std):
                 test_a += model.score(X.to(device))
                 test_n += len(X)
 

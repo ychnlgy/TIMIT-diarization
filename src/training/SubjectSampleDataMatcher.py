@@ -5,11 +5,13 @@ from .SubjectSampleDataCreator import SubjectSampleDataCreator
 
 class SubjectSampleDataMatcher(SubjectSampleDataCreator):
 
-    def create(self, get_stats=False, miu=None, std=None):
+    def create(self, get_stats=False, miu=None, std=None, noise=0):
         Xs = [self.construct_data() for i in range(self.n)]
         X = torch.cat(Xs, dim=0).float()
         if miu is not None:
             X = (X-miu)/std
+        if noise > 0:
+            X = X + torch.randn_like(X) * noise
         tensorset = torch.utils.data.TensorDataset(X)
         loader = torch.utils.data.DataLoader(tensorset, **self.kwargs)
         if get_stats:
@@ -28,7 +30,7 @@ class SubjectSampleDataMatcher(SubjectSampleDataCreator):
         pr2, an2 = self._reverse_roles(pro, ant)
         X1 = self.match_by_sample(pro, ant)
         X2 = self.match_by_sample(pr2, an2)
-        return torch.cat([X1, X2], dim=0)
+        return torch.cat([X1, X2], dim=0) # N, NUMCEP, *
 
     def match_by_sample(self, pro, ant):
         assert len(ant) >= len(pro)
