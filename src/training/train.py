@@ -31,17 +31,17 @@ def main(fpath, repeats, slicelen, batchsize, l2reg, device, results_path="resul
         batch_size = batchsize*2
     )
 
-    assert slicelen == preprocessing.NUMCEP == 16
+    assert slicelen == 64 and preprocessing.NUMCEP == 16
 
     create_act = lambda c: torch.nn.ReLU()
 
-    channels = [16, 32, 64]
-    latent_features = 32
+    channels = [32, 32, 64]
+    latent_features = 256
 
     model = DirectComparator(
         layers = [
-            modules.Reshape(1, 16, 16),
-            torch.nn.Conv2d(1, 16, 3, padding=1),
+            modules.Reshape(1, 16, 64),
+            torch.nn.Conv2d(1, 32, 3, padding=1),
             modules.ResNet(
                 block_constructor = lambda in_c, out_c: torch.nn.Sequential(
                     create_act(in_c),
@@ -59,8 +59,7 @@ def main(fpath, repeats, slicelen, batchsize, l2reg, device, results_path="resul
                 block_depth = 2
             ),
             create_act(channels[-1]),
-            torch.nn.AvgPool2d(4),
-            modules.Reshape(channels[-1]),
+            modules.GlobalAveragePool(),
             torch.nn.Linear(channels[-1], latent_features)
         ]
     ).to(device)

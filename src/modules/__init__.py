@@ -2,6 +2,7 @@ from . import polynomial, pad
 from .Repeat import Repeat
 from .Savable import Savable
 from .Transpose import Transpose
+from .GlobalAveragePool import GlobalAveragePool
 from .Operation import Operation
 from .Random import Random
 from .Noise import Noise
